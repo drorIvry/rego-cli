@@ -1,14 +1,21 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
+	"io"
+	"strings"
 
+	"github.com/drorivry/rego-cli/requests"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
+
+var image string
+var file string
+var data string
 
 // runCmd represents the run command
 var runCmd = &cobra.Command{
@@ -21,20 +28,30 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run called")
+		if image == "" && file == "" && data == "" {
+			fmt.Println("No data provided")
+			return
+		}
+		baseUrl := viper.GetString("baseUrl")
+		var request io.Reader
+		if image != "" {
+			body := "{\"image\":\"" + image + "\"}"
+			request = strings.NewReader(body)
+		}
+
+		res, err := requests.RunTask(baseUrl, request)
+		if err != nil {
+			fmt.Println("Error connecting to rego: ", err)
+		} else {
+			fmt.Println(string(res))
+		}
 	},
 }
 
 func init() {
+	runCmd.Flags().StringVarP(&image, "image", "i", "", "The image to run")
+	runCmd.Flags().StringVarP(&file, "file", "f", "", "A file containing the definition json")
+	runCmd.Flags().StringVarP(&data, "data", "d", "", "the definition json")
 	rootCmd.AddCommand(runCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// runCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// runCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

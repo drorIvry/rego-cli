@@ -23,7 +23,6 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is  $HOME/.rego/.rego-cli.yaml)")
 	rootCmd.PersistentFlags().StringVar(&baseUrl, "baseUrl", "http://localhost:4004", "The rego server URL (default is 'http://localhost:4004')")
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	viper.BindPFlag("baseUrl", rootCmd.PersistentFlags().Lookup("baseUrl"))
 
 }
