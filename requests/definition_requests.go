@@ -113,3 +113,30 @@ func RunTask(baseURL string, requestBody io.Reader) ([]byte, error) {
 
 	return responseBytes, nil
 }
+
+func UpdateTask(baseURL string, requestBody io.Reader) ([]byte, error) {
+	req, err := http.NewRequest(
+		http.MethodPut,
+		baseURL+"/api/v1/task",
+		requestBody,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Accept", "application/json")
+	response, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		return nil, err
+	}
+
+	responseBytes, err := ioutil.ReadAll(response.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return responseBytes, nil
+}
