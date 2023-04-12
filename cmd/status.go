@@ -1,40 +1,40 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
 
+	"github.com/drorivry/rego-cli/requests"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // statusCmd represents the status command
 var statusCmd = &cobra.Command{
-	Use:   "status",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "status [DEFINITION ID]",
+	Short: "Get the latest execution status of a given definition ID",
+	Long: `Get the latest execution status of a given definition ID For example:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	rego status 3264462c-6311-46e3-b791-22fac75fffde
+`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("status called")
+		if len(args) < 1 {
+			fmt.Println("The definitionId argument is required")
+		}
+
+		definitionId := args[0]
+		baseUrl := viper.GetString("baseUrl")
+		res, err := requests.GetLatestExecution(baseUrl, definitionId)
+		if err != nil {
+			fmt.Println("Error connecting to rego: ", err)
+		} else {
+			fmt.Println(string(res))
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(statusCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// statusCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// statusCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

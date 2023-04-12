@@ -2,33 +2,32 @@ package requests
 
 import (
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
-func GetLatestExecution(baseURL string, definitionId string) []byte {
+func GetLatestExecution(baseURL string, definitionId string) ([]byte, error) {
 	req, err := http.NewRequest(
 		http.MethodGet,
-		baseURL,
+		baseURL+"/api/v1/task/"+definitionId+"/latest",
 		nil,
 	)
 
 	if err != nil {
-		log.Printf("Error in request: %v", err)
+		return nil, err
 	}
 
 	req.Header.Add("Accept", "application/json")
 	response, err := http.DefaultClient.Do(req)
 
 	if err != nil {
-		log.Printf("Error in request: %v", err)
+		return nil, err
 	}
 
 	responseBytes, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
-		log.Printf("Error in request: %v", err)
+		return nil, err
 	}
 
-	return responseBytes
+	return responseBytes, nil
 }
