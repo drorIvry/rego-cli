@@ -1,27 +1,36 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
 
+	"github.com/drorivry/rego-cli/requests"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // abortCmd represents the abort command
 var abortCmd = &cobra.Command{
 	Use:   "abort",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Abort a running task given its execution ID",
+	Long: `Abort a running task given its execution ID For example:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	rego abort 3264462c-6311-46e3-b791-22fac75fffde`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("abort called")
+		if len(args) < 1 {
+			fmt.Println("The executionId argument is required")
+		}
+
+		executionId := args[0]
+		baseUrl := viper.GetString("baseUrl")
+		res, err := requests.AbortTask(baseUrl, executionId)
+		if err != nil {
+			fmt.Println("Error connecting to rego: ", err)
+		} else {
+			fmt.Println(string(res))
+		}
 	},
 }
 
