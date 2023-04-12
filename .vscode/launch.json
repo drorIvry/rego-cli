@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}",
-            "args": ["rerun", "136c51e6-1303-4c2c-b8d7-5e5221bd2327"]
+            "args": ["run", "-f" ,"test.json"]
         }
     ]
 }

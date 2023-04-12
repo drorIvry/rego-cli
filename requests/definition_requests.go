@@ -90,7 +90,7 @@ func DeleteTask(baseURL string, definitionId string) ([]byte, error) {
 func RunTask(baseURL string, requestBody io.Reader) ([]byte, error) {
 	req, err := http.NewRequest(
 		http.MethodPost,
-		baseURL+"/api/v1/task/",
+		baseURL+"/api/v1/task",
 		requestBody,
 	)
 

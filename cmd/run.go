@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"io"
+	"os"
 	"strings"
 
 	"github.com/drorivry/rego-cli/requests"
@@ -37,6 +38,15 @@ to quickly create a Cobra application.`,
 		if image != "" {
 			body := "{\"image\":\"" + image + "\"}"
 			request = strings.NewReader(body)
+		} else if data != "" {
+			request = strings.NewReader(data)
+		} else {
+			fileData, err := os.Open(file)
+			if err != nil {
+				fmt.Println("Error connecting to rego: ", err)
+			} else {
+				request = fileData
+			}
 		}
 
 		res, err := requests.RunTask(baseUrl, request)
