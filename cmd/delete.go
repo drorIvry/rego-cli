@@ -13,7 +13,7 @@ import (
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
-	Use:   "delete",
+	Use:   "delete [DEFINITION ID]",
 	Short: "Delete a task definition",
 	Long: `Delete an already deployed task given a definition ID For example:
 

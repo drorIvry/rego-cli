@@ -13,7 +13,7 @@ import (
 
 // abortCmd represents the abort command
 var abortCmd = &cobra.Command{
-	Use:   "abort",
+	Use:   "abort [EXECUTION ID]",
 	Short: "Abort a running task given its execution ID",
 	Long: `Abort a running task given its execution ID For example:
 
