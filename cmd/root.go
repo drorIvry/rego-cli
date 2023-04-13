@@ -14,9 +14,10 @@ var baseUrl string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "rego-cli [deploy, update, abort, rerun, ]",
-	Short: "CLI tool for rego.",
-	Long:  `Work seamlessly with GitHub from the command line.`,
+	Use:     "rego-cli [deploy, update, abort, rerun, ]",
+	Short:   "CLI tool for rego.",
+	Long:    `Work seamlessly with GitHub from the command line.`,
+	Version: "0.0.1",
 }
 
 func init() {
@@ -24,7 +25,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is  $HOME/.rego/.rego-cli.yaml)")
 	rootCmd.PersistentFlags().StringVar(&baseUrl, "baseUrl", "http://localhost:4004", "The rego server URL (default is 'http://localhost:4004')")
 	viper.BindPFlag("baseUrl", rootCmd.PersistentFlags().Lookup("baseUrl"))
-
 }
 
 func Execute() {
