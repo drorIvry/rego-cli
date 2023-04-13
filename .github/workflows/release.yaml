@@ -25,3 +25,4 @@ jobs:
           goarch: ${{ matrix.goarch }}
           binary_name: "rego"
           extra_files: LICENSE README.md
+          asset_name: ${BINARY_NAME}-${GOOS}-${GOARCH}
